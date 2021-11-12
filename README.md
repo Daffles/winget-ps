@@ -18,5 +18,5 @@
 
 # Supported Commands
 
-| Command | Description |
-| ------- | ----------- |
+| Powershell Command | Winget Command | Description |
+| ------------------ | -------------- | ----------- |
