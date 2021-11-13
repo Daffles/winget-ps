@@ -29,63 +29,69 @@ Function Find-InstalledWgPackages {
         [string]$Id,
         [Parameter(
             ParameterSetName = "Name",
-            Position = 0,
             ValueFromPipelineByPropertyName,
             HelpMessage = "Enter package Name - note parameter is treated as wilcard"
         )]
         [string]$Name,
         [Parameter(
             ParameterSetName = "Moniker",
-            Position = 0,
             ValueFromPipelineByPropertyName,
             HelpMessage = "Enter package Monkier - note parameter is treated as wilcard"
         )]
         [string]$Moniker,
         [Parameter(
             ParameterSetName = "Source",
-            Position = 0,
             ValueFromPipelineByPropertyName,
             HelpMessage = "Enter package Source - note parameter is treated as wilcard"
         )]
         [string]$Source,
         [Parameter(
             ParameterSetName = "Exact",
-            Position = 0,
             ValueFromPipelineByPropertyName,
             HelpMessage = "Enter exact package name"
         )]
-        [string]$Exact
+        [string]$Exact,
+        [Parameter(
+            ParameterSetName = "SelectObject",
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter Object properties to select '-SelectObject Name,Id,Version,Available,Source'"
+        )]
+        [string]$SelectObject
     )
     Begin {
         $cmdwinget = "winget list"
         switch ($PSCmdlet.ParameterSetName) { # TODO: Not sure if 'if' blocks are needed
             "Exact" {
-                if (condition) {
+                if ($Exact) {
                     $cmdwinget += " --exact '$Exact'"
                     Break
                 }
             }
             "Id" {
-                if (condition) {
+                if ($Id) {
                     $cmdwinget += " --id '$Id'"
                 }
               }
             "Name" {
-                if (condition) {
+                if ($Name) {
                     $cmdwinget += " --name '$Name'"
                 }
             }
             "Moniker" {
-                if (condition) {
+                if ($Moniker) {
                     $cmdwinget += " --moniker '$Moniker'"
                 }
             }
             "Source" {
-                if (condition) {
+                if ($Source) {
                     $cmdwinget += " --source '$Source'"
                 }
             }
-            
+            "SelectObject" {
+                if ($SelectObject) {
+                    # TODO: Delimit on ',' and set a [bool] to Select-Object in Process block
+                }
+            }
         }
         $winget = [scriptblock]::create($cmdwinget)
     }
